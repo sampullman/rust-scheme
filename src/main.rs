@@ -58,7 +58,7 @@ impl<'a> Atom {
     }
 }
 
-impl<'a> Debug for Atom {
+impl Debug for Atom {
     fn fmt(&self, f:&mut Formatter) -> std::fmt::Result {
         use Atom::*;
         match self {
@@ -74,7 +74,7 @@ impl<'a> Debug for Atom {
 }
 
 #[allow(unused_must_use)]
-impl<'a> Display for Atom {
+impl Display for Atom {
     fn fmt(&self, f:&mut Formatter) -> std::fmt::Result {
         use Atom::*;
         match self {
@@ -103,8 +103,8 @@ fn main() {
     //let program = "(begin (define pi 3.14159) (define r 10) (* pi (* r r)))";
     //let program = "(begin (define (x y) (* y 5) (* y 10)) (x 8))";
     //let program = "(/ (- (+ 1 (+ 1 1)) 5) 2)";
-    //let program = "(begin (define (fact x) (if (= x 0) 1 (* x (fact (- x 1))))) (fact 10))";
-    let program = "(begin (define (fib n) (if (< n 2) n (+ (fib (- n 1)) (fib (- n 2))))) (fib 30))";
+    let program = "(begin (define (fact x) (* x (fact (- x 1))) (fact 5))";
+    //let program = "(begin (define (fib n) (if (< n 2) n (+ (fib (- n 1)) (fib (- n 2))))) (fib 20))";
     //let program = "(apply * 5 5 (list 4 5 6))";
     //let program = "( list (+ 34 6) ( * 2 1 )  )";
     //let mut input = String::new();
@@ -275,11 +275,19 @@ mod tests {
 
     #[test]
     fn test_recursion_simple() {
-        test_program("(begin (define (fact x) (* x (fact (- x 1))) (fact 5))", "5")
+        test_program("(begin (define (fact x) (if (< x 2) x (* x (fact (- x 1))))) (fact 5))", "120")
     }
 
     #[test]
     fn test_misc() {
         test_program("( list (+ 34 6) ( * 2 1 )  )", "(40 2)")
     }
+
+    /* Failure tests */
+
+    #[test]
+    fn test_mismatch_paren() {
+        test_program("(begin (define (fact x) (* x (fact (- x 1))) (fact 5))", "5")
+    }
+
 }

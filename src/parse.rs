@@ -31,6 +31,9 @@ fn read_list(mut tokens: &mut Vec<String>) -> Result<Vec<Atom>, String> {
     let mut compare: String = tokens[0].clone();
     while compare != ")" {
         list.push(try!(read_from_tokens(tokens)));
+        if tokens.len() == 0 {
+            return Err("Missing right paren".to_string())
+        }
         compare = tokens[0].clone();
     }
     tokens.remove(0); // Remove ')'
@@ -43,7 +46,6 @@ pub fn read_from_tokens(mut tokens: &mut Vec<String>) -> Result<Atom, String> {
     }
 
     let token = tokens.remove(0);
-    //println!("Token: {}", token);
     match token.as_ref() {
         "(" => {
             Ok(Atom::List(try!(read_list(tokens))))
