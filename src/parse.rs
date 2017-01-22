@@ -1,6 +1,6 @@
 use std::io;
 
-use Atom;
+use atom::Atom;
 
 pub fn read_stdin_into(input: &mut String) -> &str {
     match io::stdin().read_line(input) {

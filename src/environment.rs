@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::mem;
-use Atom;
+use atom::Atom;
 use interpreter::{evaluate, execute_fn};
 
 #[derive(Clone, PartialEq)]
