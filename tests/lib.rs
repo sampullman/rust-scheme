@@ -11,7 +11,14 @@ pub fn test_program(program: &str, expected: &str) {
 pub fn test_error(program: &str) {
     match run_program(program) {
         Ok(_) => panic!(),
-        Err(_) => assert_eq!(true, true)
+        Err(_) => assert!(true)
+    }
+}
+
+pub fn test_error_msg(program: &str, expected: &str) {
+    match run_program(program) {
+        Ok(_) => panic!(),
+        Err(msg) => assert_eq!(msg, expected.to_string())
     }
 }
 
@@ -159,7 +166,6 @@ fn test_misc() {
 /* Failure tests */
 
 #[test]
-#[should_panic(expected = "Semantic error! \"Missing right paren\"")]
 fn test_mismatch_paren() {
-    test_program("(begin (define (fact x) (* x (fact (- x 1))) (fact 5))", "5")
+    test_error_msg("(begin (define (fact x) (* x (fact (- x 1))) (fact 5))", "Missing right paren")
 }

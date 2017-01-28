@@ -15,7 +15,7 @@ fn main() {
     //tokenize(program);
     match run_program(program) {
         Ok(result) => println!("Read program: {}", result),
-        Err(err) => println!("Semantic error! {:?}", err),
+        Err(err) => println!("Semantic error! {}", err),
     }
 }
 
